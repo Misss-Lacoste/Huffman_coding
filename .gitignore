@@ -1,2 +1,4 @@
 .test.cpp
 .test.c
+cmake-build-debug
+CMakeLists.txt
