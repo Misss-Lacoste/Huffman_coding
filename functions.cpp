@@ -37,3 +37,22 @@ void build_map(Node *root, std::vector<bool>& code, std::map<char, std::vector<b
 
     code.pop_back();
 }
+
+void frequency(std::map<char, int> &map, std::string str) {
+    for (int i = 0; i < str.length(); i++) {
+        char c = str[i];
+        map[c]++;
+    }
+}
+
+void build_map( std::list<Node *> &list, std::map<char, int> &map) {
+    std::map<char, int>::iterator i;
+    for (i = map.begin(); i != map.end(); i++) {
+        Node *p = new Node;
+        p->letter = i->first;
+        p->value = i->second;
+        list.push_back(p);
+    }
+}
+
+

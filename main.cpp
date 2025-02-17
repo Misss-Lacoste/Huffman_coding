@@ -1,4 +1,5 @@
 #include "Node.h"
+#include "functions.cpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -14,24 +15,22 @@ int main() {
     std::string str = "it is my striiiiing!!!!";
 
     std::map<char, int> map;
-    for (int i = 0; i < str.length(); i++) {
-        char c = str[i];
-        map[c]++;
-    }
+    frequency(map, str);
 
     std::list<Node*> list;
 
-    std::map<char, int>::iterator i;
-    for (i = map.begin(); i != map.end(); i++) {
-        Node *p = new Node;
-        p->letter = i->first;
-        p->value = i->second;
-        list.push_back(p);
-    }
+    build_map(list, map);
 
-    while (list.size() != 1) {
-        list.sort();
+    Node *root = create_tree(list);
+    build_table(root, code, table);
 
+    for (int i = 0; i < str.length(); i++) {
+        char c = str[i];
+        std::vector<bool> v = table[c];
+
+        for (int j = 0; j < v.size(); j++) {
+            std::cout << v[j];
+        }
     }
     return 0;
 }

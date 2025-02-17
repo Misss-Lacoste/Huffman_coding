@@ -2,11 +2,11 @@
 #include <list>
 #include <vector>
 #include <map>
-#include <iostream>
-#include "Comparator.h"
+
 
 #include "Node.h"
 
 Node *create_tree(std::list<Node *> &nodes);
-
-void build_map(Node *root, std::vector<bool>& code, std::map<char, std::vector<bool> >& table);
+void build_table(Node *root, std::vector<bool>& code, std::map<char, std::vector<bool> >& table);\
+void frequency(std::map<char, int> &map, std::string str);
+void build_map(std::list<Node *> &list, std::map<char, int> &map);
