@@ -32,5 +32,9 @@ int main() {
             std::cout << v[j];
         }
     }
+
+    std::cout << std::endl;
+
+    print_table(table);
     return 0;
 }

@@ -55,4 +55,15 @@ void build_map( std::list<Node *> &list, std::map<char, int> &map) {
     }
 }
 
+void print_table(std::map<char, std::vector<bool>> table) {
+    std::map<char, std::vector<bool>>::iterator i;
+    for (i = table.begin(); i != table.end(); i++) {
+        std::cout << i->first << " : ";
+        for (int j = 0; j < i->second.size(); j++) {
+            std::cout << i->second[j];
+        }
+        std::cout << std::endl;
+    }
+}
+
 
