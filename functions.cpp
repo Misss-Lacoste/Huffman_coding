@@ -20,15 +20,15 @@ Node *create_tree(std::list<Node *> &nodes) {
     return nodes.front();
 }
 
-void build_map(Node *root, std::vector<bool>& code, std::map<char, std::vector<bool> >& table) {
+void build_table(Node *root, std::vector<bool>& code, std::map<char, std::vector<bool> >& table) {
     if (root -> left != nullptr) {
         code.push_back(0);
-        build_map(root -> left, code, table);
+        build_table(root -> left, code, table);
     }
 
     if (root -> right != nullptr) {
         code.push_back(1);
-        build_map(root -> right, code, table);
+        build_table(root -> right, code, table);
     }
 
     if (root->letter) {
