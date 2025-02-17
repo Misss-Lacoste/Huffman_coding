@@ -5,6 +5,11 @@
 #include <map>
 #include <list>
 
+
+std::vector<bool> code;
+std::map<char, std::vector<bool> > table;
+
+
 int main() {
     std::string str = "it is my striiiiing!!!!";
 
