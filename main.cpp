@@ -1,5 +1,5 @@
 #include "Node.h"
-#include "functions.cpp"
+#include "functions.h"
 #include <iostream>
 #include <string>
 #include <vector>
