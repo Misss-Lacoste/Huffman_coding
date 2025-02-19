@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef NODE_H
+#define NODE_H
+
 class Node {
 public:
     int value;
@@ -12,3 +15,5 @@ public:
         value = this->left->value + this->right->value;
     }
 };
+
+#endif
