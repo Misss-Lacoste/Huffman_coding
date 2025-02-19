@@ -24,18 +24,20 @@ void build_table(Node *root, std::vector<bool>& code, std::map<char, std::vector
     if (root -> left != nullptr) {
         code.push_back(0);
         build_table(root -> left, code, table);
+        code.pop_back(); //remove 0 after exploring the left subtree
     }
 
     if (root -> right != nullptr) {
         code.push_back(1);
         build_table(root -> right, code, table);
+        code.pop_back(); //аналогично remove 1 after the left subtree
     }
 
     if (root->letter) {
         table[root->letter] = code;
     }
 
-    code.pop_back();
+    //code.pop_back(); such piece of code has become unnecessary
 }
 
 void frequency(std::map<char, int> &map, std::string str) {
