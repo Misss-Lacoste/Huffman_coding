@@ -21,24 +21,27 @@ Node *create_tree(std::list<Node *> &nodes) {
 }
 
 void build_table(Node *root, std::vector<bool>& code, std::map<char, std::vector<bool> >& table) {
-    if (root -> left != nullptr) {
-        code.push_back(0);
-        build_table(root -> left, code, table);
-        code.pop_back(); //remove 0 after exploring the left subtree
+    if (root == nullptr) {
+        return; // Если узел пустой, просто выходим
     }
 
-    if (root -> right != nullptr) {
+    if (root->left != nullptr) {
+        code.push_back(0);
+        build_table(root->left, code, table);
+        code.pop_back();
+    }
+
+    if (root->right != nullptr) {
         code.push_back(1);
-        build_table(root -> right, code, table);
-        code.pop_back(); //аналогично remove 1 after the left subtree
+        build_table(root->right, code, table);
+        code.pop_back();
     }
 
     if (root->letter) {
         table[root->letter] = code;
     }
-
-    //code.pop_back(); such piece of code has become unnecessary
 }
+
 
 void frequency(std::map<char, int> &map, std::string str) {
     for (int i = 0; i < str.length(); i++) {
