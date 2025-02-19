@@ -4,12 +4,11 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <list>
 #include <fstream>
-
 std::vector<bool> code;
-std::map<char, std::vector<bool> > table;
+std::map<char, std::vector<bool>> table;
 
-// Функция для освобождения памяти дерева
 void deleteTree(Node* node) {
     if (node) {
         deleteTree(node->left);
@@ -19,39 +18,31 @@ void deleteTree(Node* node) {
 }
 
 int main() {
-    // Исходная строка для построения кодовой таблицы
     std::string str = "it is my striiiiing!!!!";
 
-    // Построение частотной таблицы
     std::map<char, int> map;
     frequency(map, str);
 
-    // Создание списка узлов
     std::list<Node*> list;
     build_map(list, map);
 
-    // Создание дерева Хаффмана
     Node* root = create_tree(list);
 
-    // Построение кодовой таблицы
     build_table(root, code, table);
 
-    // Кодирование исходной строки и запись в файл
     std::vector<bool> encodedBits;
 
-   
     for (size_t i = 0; i < str.length(); i++) {
         char c = str[i];
         std::vector<bool> v = table[c];
         encodedBits.insert(encodedBits.end(), v.begin(), v.end());
     }
 
+    // Запись количества закодированных битов в файл
+    size_t numBits = encodedBits.size();
+    std::ofstream outfile("encoded.bin", std::ios::binary);
+    outfile.write(reinterpret_cast<const char*>(&numBits), sizeof(numBits));
 
-    std::ofstream outfile("encoded.txt", std::ios::binary);
-    if (!outfile) {
-        std::cerr << "can't open encoded.txt for writing" << std::endl;
-        return 1;
-    }
     char byte = 0;
     int count = 0;
 
@@ -64,22 +55,20 @@ int main() {
             byte = 0;
         }
     }
-    if (count != 0) { 
+    if (count != 0) {
         outfile.write(&byte, 1);
     }
     outfile.close();
 
- 
     std::vector<bool> encodedBitsFromFile;
 
-    std::ifstream infile("encoded.txt", std::ios::binary);
-    if (!infile) {
-        std::cerr << "cant open encoded.txt for reading" << std::endl;
-        return 1;
-    }
+    // Считывание количества закодированных битов из файла
+    size_t numBitsFromFile = 0;
+    std::ifstream infile("encoded.bin", std::ios::binary);
+    infile.read(reinterpret_cast<char*>(&numBitsFromFile), sizeof(numBitsFromFile));
 
     char readByte;
-    while (infile.read(&readByte, 1)) {
+    while (infile.read(&readByte, 1) && encodedBitsFromFile.size() < numBitsFromFile) {
         for (int i = 7; i >= 0; --i) {
             bool bit = (readByte >> i) & 1;
             encodedBitsFromFile.push_back(bit);
@@ -87,10 +76,21 @@ int main() {
     }
     infile.close();
 
-    std::string decodedStr = decode_sequence(root, encodedBitsFromFile);
-    std::cout << "Decoded: " << decodedStr << std::endl;
+    // Ограничить количество бит, обрабатываемых для декодирования
+    encodedBitsFromFile.resize(numBitsFromFile);
 
- 
+    std::string decodedStr = decode_sequence(root, encodedBitsFromFile);
+    std::cout << "decoded" << decodedStr << std::endl;
+
+    std::ofstream outFile("decompressed_output.txt");
+    if (!outFile) {
+        std::cerr << "cant open for writing" << std::endl;
+        return 1;
+    }
+    outFile << decodedStr;
+    outFile.close();
+    std::cout << "data has written to decompressed_output.txt" << std::endl;
+
     deleteTree(root);
 
     return 0;
