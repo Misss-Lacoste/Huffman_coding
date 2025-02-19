@@ -36,5 +36,25 @@ int main() {
     std::cout << std::endl;
 
     print_table(table);
+    
+    // IMPORTANT:  Memory cleanup to prevent memory leaks
+
+    // Add root to list
+    std::list<Node*> nodesToDelete;
+    nodesToDelete.push_back(root);
+
+    while(!nodesToDelete.empty()){
+        Node* current = nodesToDelete.front();
+        nodesToDelete.pop_front();
+
+        if(current->left){
+            nodesToDelete.push_back(current->left);
+        }
+        if(current->right){
+            nodesToDelete.push_back(current->right);
+        }
+        delete current;
+    }
     return 0;
+
 }
