@@ -19,7 +19,7 @@ void deleteTree(Node* node) { //функция рекурсивно удаляе
 
 int main() { //функция для чтения файла и его анализа
     std::string filename = "Book.txt";
-    std::ifstream inputFile(filename);
+    std::ifstream inputFile(filename, std::ios::binary);
     if (!inputFile) {
         std::cerr << "Unable to open file: " << filename << std::endl;
         return 1;
@@ -53,13 +53,13 @@ int main() { //функция для чтения файла и его анал�
 
     // Запись количества закодированных битов в файл
     size_t numBits = encodedBits.size(); //получает кол-во закодированных битов
-    std::ofstream outfile("encoded.bin", std::ios::binary); 
+    std::ofstream outfile("encoded.bin", std::ios::binary);
     outfile.write(reinterpret_cast<const char*>(&numBits), sizeof(numBits)); //число закодированных битов 
 
     char byte = 0;
     int count = 0;
 
-    for (size_t i = 0; i < encodedBits.size(); ++i) { 
+    for (size_t i = 0; i < encodedBits.size(); ++i) {
         byte = byte | (encodedBits[i] << (7 - count)); //превращаем биты в байты
         ++count;
         if (count == 8) { //проверяем, "собрался" ли байт(он же из 8 битов, да)
@@ -95,7 +95,7 @@ int main() { //функция для чтения файла и его анал�
     std::string decodedStr = decode_sequence(root, encodedBitsFromFile); //раскодируем закодированные биты
     std::cout << "decoded" << decodedStr << std::endl;
 
-    std::ofstream outFile("decompressed_output.txt");
+    std::ofstream outFile("decompressed_output.txt", std::ios::binary);
     if (!outFile) {
         std::cerr << "cant open for writing" << std::endl;
         return 1;
@@ -108,4 +108,3 @@ int main() { //функция для чтения файла и его анал�
 
     return 0;
 }
-
