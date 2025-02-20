@@ -18,7 +18,7 @@ void deleteTree(Node* node) { //функция рекурсивно удаляе
 }
 
 int main() { //функция для чтения файла и его анализа
-    std::string filename = "book.txt";
+    std::string filename = "Book.txt";
     std::ifstream inputFile(filename, std::ios::binary);
     if (!inputFile) {
         std::cerr << "Unable to open file: " << filename << std::endl;
